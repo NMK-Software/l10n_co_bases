@@ -34,7 +34,6 @@
     <record id="action_res_country_city" model="ir.actions.act_window">
       <field name="name">ResCountryCity Action</field>
       <field name="res_model">res.country.city</field>
-      <field name="view_type">form</field>
       <field name="view_mode">tree,kanban,form</field>
     </record>
   </data>

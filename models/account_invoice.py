@@ -5,8 +5,8 @@
 
 from odoo import SUPERUSER_ID, api, fields, models, _
 
-class AccountInvoice(models.Model):
-    _inherit = 'account.invoice'
+class AccountMove(models.Model):
+    _inherit = 'account.move'
 
     @api.depends('amount_total')
     def _compute_amount_total_words(self):

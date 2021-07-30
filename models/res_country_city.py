@@ -13,7 +13,6 @@ class ResCountryCity(models.Model):
     state_id = fields.Many2one('res.country.state', string="State")
     postal_code = fields.Char(string=u'Postal code',)
 
-    @api.multi
     def name_get(self):
         rec = []
         for recs in self:

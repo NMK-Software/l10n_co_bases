@@ -14,7 +14,6 @@ class ResConfigSettings(models.TransientModel):
         )
         return res
 
-    @api.multi
     def set_values(self):
         super(ResConfigSettings, self).set_values()
         self.env['ir.config_parameter'].sudo().set_param('l10n_co_bases.comment_text_with_format', self.comment_text_with_format)
