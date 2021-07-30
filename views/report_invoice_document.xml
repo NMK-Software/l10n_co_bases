@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+    <template id="contact" inherit_id="base.contact">
+      <xpath expr="//address" position="replace">
+        <address t-ignore="true" class="mb0" itemscope="itemscope" itemtype="http://schema.org/Organization">
+            <div t-if="not (('name' in fields) or (address and 'address' in fields) or (city and 'city' in fields) or (mobile and 'mobile' in fields) or (website and 'website' in fields) or (email and 'email' in fields))" class="css_non_editable_mode_hidden">
+                --<span class="text-muted" t-esc="name"/>--
+            </div>
+            <t t-if="object.country_id.name_position != 'after'">
+                <t t-call="base.contact_name"/>
+            </t>
+            <div itemprop="address" itemscope="itemscope" itemtype="http://schema.org/PostalAddress">
+                <div t-if="address and 'address' in fields">
+                    <i t-if="not options.get('no_marker')" class='fa fa-map-marker fa-fw'/> <span itemprop="streetAddress" t-raw="address.replace('\n', options.get('no_tag_br') and ', ' or ('&lt;br/&gt;%s' % ('' if options.get('no_marker') else '&amp;nbsp; &amp;nbsp; ')))"/>
+                </div>
+                <div t-if="city and 'city' in fields">
+                    <i t-if="not options.get('no_marker')" class='fa fa-map-marker fa-fw'/>
+                    <span itemprop="addressLocality" t-raw="city"/>,
+                    <span itemprop="addressCountry" t-raw="country_id"/>
+                </div>
+                <div t-if="email and 'email' in fields">
+                  <i t-if="not options.get('no_marker')" class='fa fa-envelope fa-fw'/>
+                  <span t-if="email and 'email' in fields and options.get('label')">Mail: </span>
+                  <span itemprop="email" t-esc="email"/>
+                </div>
+                <div t-if="phone and 'phone' in fields">
+                  <i t-if="not options.get('no_marker') or options.get('phone_icons')" class='fa fa-phone fa-fw'/>
+                  <span t-if="phone and 'phone' in fields and options.get('label')">Phone: </span>
+                  <span itemprop="telephone" t-esc="phone"/>
+                </div>
+                <div t-if="mobile and 'mobile' in fields"><i t-if="not options.get('no_marker') or options.get('phone_icons')" class='fa fa-mobile fa-fw'/> <span itemprop="telephone" t-esc="mobile"/></div>
+                <div t-if="fax and 'fax' in fields"><i t-if="not options.get('no_marker') or options.get('phone_icons')" class='fa fa-fax fa-fw'/> <span itemprop="faxNumber" t-esc="fax"/></div>
+                <div t-if="website and 'website' in fields">
+                    <i t-if="not options.get('no_marker')" class='fa fa-globe'/>
+                    <a t-att-href="website and '%s%s' % ('http://' if '://' not in website else '',website)"><span itemprop="website" t-esc="website"/></a>
+                </div>
+            </div>
+            <t t-if="object.country_id and object.country_id.name_position == 'after'">
+                <t t-call="base.contact_name"/>
+            </t>
+        </address>
+      </xpath>
+    </template>
+
+    <template id="exogen_info_report_invoice_document" inherit_id="account.report_invoice_document">
+      <xpath expr="//div[@name='invoice_address']" position="attributes">
+        <attribute name="class">col-xs-5 pull-right</attribute>
+      </xpath>
+
+      <xpath expr="//div[@name='invoice_address']//address[1]" position="replace">
+        <address t-field="o.partner_id" t-options="{'widget': 'contact', 'fields': ['address', 'name', 'city_id', 'email', 'phone'], 'no_marker': True, 'label': True}"/>
+      </xpath>
+
+      <!-- <xpath expr="//div[@name='invoice_address']//address[1]" position="after">
+        <span>Correo: </span> <span t-field="o.partner_id.email"></span><br/>
+        <span>Telefono: </span> <span t-field="o.partner_id.phone"></span>
+      </xpath> -->
+      <xpath expr="//div[@class='page']/p[3]" position="before">
+        <p t-if="o.journal_id.invoice_comment">
+          <t t-raw="o.journal_id.invoice_comment"/>
+        </p>
+        <p t-if="o.show_invoice_comment">
+          <t t-raw="o.invoice_comment"/>
+        </p>
+      </xpath>
+      <xpath expr="//div[@class='page']/div[3]/div[@id='total']/div[@class='col-xs-4 pull-right']/table[@class='table table-condensed']" position="replace">
+        <table class="table table-condensed" style="min-width: 250px;max-width: 400px;">
+          <tr class="border-black" style="border-bottom:1px solid #dddddd;">
+            <td>
+              <strong>Subtotal</strong>
+            </td>
+            <td class="text-right">
+              <span t-field="o.amount_untaxed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+            </td>
+          </tr>
+          <t t-foreach="o.tax_line_ids.filtered(lambda l: l.amount_total > 0)" t-as="tax_line">
+            <tr style="border-bottom:1px solid #dddddd;">
+              <td>
+                <span t-esc="tax_line.name"/>
+              </td>
+              <td class="text-right">
+                  <span t-esc="tax_line.amount_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+              </td>
+            </tr>
+          </t>
+          <tr>
+          </tr>
+
+          <t t-foreach="o.retention_lines" t-as="tax_line">
+            <tr style="border-bottom:1px solid #dddddd;">
+              <td>
+                <span t-esc="tax_line.name"/>
+              </td>
+              <td class="text-right">
+                  <span t-esc="tax_line.virtual_retention" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+              </td>
+            </tr>
+          </t>
+          <tr class="border-black">
+            <td>
+              <strong>Total</strong>
+            </td>
+            <td class="text-right">
+              <span t-field="o.amount_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+            </td>
+          </tr>
+        </table>
+      </xpath>
+    </template>
+  </data>
+</odoo>
