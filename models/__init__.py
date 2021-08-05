@@ -13,6 +13,6 @@ from . import (
     product_category,
     account_tax_group,
     res_config_settings,
-    res_country_city,
+    res_city,
     res_bank
 )

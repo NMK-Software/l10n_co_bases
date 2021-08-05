@@ -734,10 +734,6 @@ msgstr "Otro"
 msgid "res.config.settings"
 msgstr "res.config.settings"
 
-#. module: l10n_co_bases
-#: model:ir.model,name:l10n_co_bases.model_res_country_city
-msgid "res.country.city"
-msgstr "Ciudades"
 
 #. module: l10n_co_bases
 #: selection:res.ciiu,type:0
