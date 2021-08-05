@@ -80,7 +80,6 @@ class ResPartner(models.Model):
     )
 
     regime_type = fields.Selection(_get_available_regime, string="Regimen", default="48")
-    city_id = fields.Many2one('res.country.city', string="City")
     anonymous_customer = fields.Boolean(string="Anonymous customer")
 
 
@@ -88,9 +87,8 @@ class ResPartner(models.Model):
     def name_search(self, name, args=None, operator='ilike', limit=100):
         args = args or []
         if name:
-            # Busca VAT en las vistas relacionadas con res.partner
-
             args = ['|','|',('vat', 'ilike', name),('name', 'ilike', name),('display_name', 'ilike', name)] + args
+            
         return super(ResPartner, self).name_search(name, args=args, operator=operator, limit=limit)
 
 

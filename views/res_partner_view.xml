@@ -178,6 +178,9 @@
         <field name="state_id" position="after">
           <field name="city_id" placeholder="City"/>
         </field>
+        <field name="city" position="attributes">
+          <attribute name="invisible">True</attribute>
+        </field>
 
         <group name="accounting_entries" position="after">
           <group string="Taxes" name="accounting_partner_taxes" groups="account.group_account_user">
