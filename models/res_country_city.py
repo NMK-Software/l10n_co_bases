@@ -4,12 +4,16 @@
 
 from odoo import models, fields, api
 
-class ResCity(models.Model):
-    _inherit = 'res.city'
+class ResCountryCity(models.Model):
+    _name = 'res.country.city'
 
-    name = fields.Char(translate=False)
+    country_id = fields.Many2one('res.country', string="Country")
+    name = fields.Char(string="Name")
     code = fields.Char(string="Code")
+    state_id = fields.Many2one('res.country.state', string="State")
+    postal_code = fields.Char(string=u'Postal code',)
 
+    @api.multi
     def name_get(self):
         rec = []
         for recs in self:

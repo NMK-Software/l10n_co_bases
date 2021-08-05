@@ -80,6 +80,7 @@ class ResPartner(models.Model):
     )
 
     regime_type = fields.Selection(_get_available_regime, string="Regimen", default="48")
+    city_id = fields.Many2one('res.country.city', string="City")
     anonymous_customer = fields.Boolean(string="Anonymous customer")
 
 
@@ -87,11 +88,14 @@ class ResPartner(models.Model):
     def name_search(self, name, args=None, operator='ilike', limit=100):
         args = args or []
         if name:
+            # Busca VAT en las vistas relacionadas con res.partner
+
             args = ['|','|',('vat', 'ilike', name),('name', 'ilike', name),('display_name', 'ilike', name)] + args
-            
         return super(ResPartner, self).name_search(name, args=args, operator=operator, limit=limit)
 
 
+
+    @api.multi
     def _display_address(self, without_company=False):
 
         address_format = self.country_id.address_format or \
@@ -136,15 +140,16 @@ class ResPartner(models.Model):
         return result
 
 
+    @api.one
     def _compute_vat_ref(self):
-        for record in self:
-            result_vat = None
-            if record.vat_type == '31' and record.vat and record.vat.isdigit() and len(record.vat.strip()) > 0:
-                result_vat = '{:,}'.format(int(record.vat.strip())).replace(",", ".")
-                record.vat_ref = "%s-%i" % (result_vat,record.vat_vd)
-            else:
-                record.vat_ref = record.vat
+        result_vat = None
+        if self.vat_type == '31' and self.vat and self.vat.isdigit() and len(self.vat.strip()) > 0:
+            result_vat = '{:,}'.format(int(self.vat.strip())).replace(",", ".")
+            self.vat_ref = "%s-%i" % (result_vat,self.vat_vd)
+        else:
+            self.vat_ref = self.vat
 
+    @api.multi
     @api.constrains("vat_vd")
     def check_vat_dv(self):
         self.ensure_one()
@@ -156,6 +161,7 @@ class ResPartner(models.Model):
                                   (self.vat, self.vat_vd, self.name, self.compute_vat_co()))
         return True
 
+    @api.one
     @api.constrains("vat", "vat_type")
     def check_vat(self):
         if self.vat:
@@ -166,11 +172,13 @@ class ResPartner(models.Model):
             self.check_unique_constraint()
         return True
 
+    @api.multi
     @api.onchange("vat_type", "vat", "vat_vd", )
     def _onchange_vat_vd(self):
         self.ensure_one()
         self.check_vat_dv()
 
+    @api.multi
     def check_vat_co(self):
         self.ensure_one()
         vat = self.vat
@@ -185,6 +193,7 @@ class ResPartner(models.Model):
             return True
         return False
 
+    @api.multi
     def compute_vat_co(self):
         self.ensure_one()
         vat = self.vat
@@ -226,6 +235,7 @@ class ResPartner(models.Model):
         if len(partner_ids) > 0 and not self.parent_id:
             raise ValidationError(_("VAT %s is already registered for the contact %s") % (self.vat, ';'.join([partner_id.display_name for partner_id in partner_ids])))
 
+    @api.multi
     def person_name(self, vals):
         values = vals or {}
         person_field = ['first_name', 'middle_name', 'last_name', 'second_last_name']
@@ -252,6 +262,7 @@ class ResPartner(models.Model):
 
         return values
 
+    @api.multi
     def write(self, values):
         values = self.person_name(values)
         return super(ResPartner, self).write(values)
@@ -262,6 +273,7 @@ class ResPartner(models.Model):
         return super(ResPartner, self).create(values)
 
 
+    @api.multi
     def _commercial_sync_to_children(self):
         result = super(ResPartner, self)._commercial_sync_to_children()
 
