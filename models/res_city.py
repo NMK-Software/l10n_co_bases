@@ -7,6 +7,7 @@ from odoo import models, fields, api
 class ResCity(models.Model):
     _inherit = 'res.city'
 
+    name = fields.Char(translate=False)
     code = fields.Char(string="Code")
 
     def name_get(self):
