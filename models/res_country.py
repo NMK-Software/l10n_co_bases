@@ -8,12 +8,11 @@ class ResCountry(models.Model):
     _inherit = 'res.country'
 
     code_dian = fields.Char(
-        string=u'Código Dian',
+        string='DIAN Code',
         required=False,
         readonly=False
     )
 
-    @api.multi
     def name_get(self):
         rec = []
         for recs in self:
@@ -49,7 +48,6 @@ class ResCountryState(models.Model):
 
     code_department = fields.Char(string="Code department")
 
-    @api.multi
     def name_get(self):
         rec = []
         for recs in self:

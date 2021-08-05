@@ -8,9 +8,9 @@ class ResCIIU(models.Model):
     _name = 'res.ciiu'
     _description = "CIIU Codes"
     _parent_name = "parent_id"
-    _parent_store = True
-    _parent_order = 'code, name'
-    _order = 'parent_left'
+    #_parent_store = True
+    #_parent_order = 'code, name'
+    #_order = 'parent_left'
 
     name = fields.Char(
         string='Name',
@@ -50,12 +50,12 @@ class ResCIIU(models.Model):
         comodel_name="res.ciiu",
         inverse_name='parent_id',
     )
-    parent_left = fields.Integer(
-        'Parent Left',
-        index=1)
-    parent_right = fields.Integer(
-        'Parent Right',
-        index=1)
+    #parent_left = fields.Integer(
+    #    'Parent Left',
+    #    index=1)
+    #parent_right = fields.Integer(
+    #    'Parent Right',
+    #    index=1)
 
 
     _sql_constraints = [
@@ -78,7 +78,6 @@ class ResCIIU(models.Model):
 
         return ciiu.name_get()
 
-    @api.multi
     def name_get(self):
         res = []
         for record in self:
@@ -88,6 +87,5 @@ class ResCIIU(models.Model):
             res.append((record.id, name))
         return res
 
-    @api.multi
     def action_parent_store_compute(self):
         self._parent_store_compute()
