@@ -44,7 +44,70 @@
       </xpath>
     </template>
 
+    <template id="exogen_info_report_invoice_document" inherit_id="account.report_invoice_document">
+      <xpath expr="//div[@name='invoice_address']" position="attributes">
+        <attribute name="class">col-xs-5 pull-right</attribute>
+      </xpath>
 
+      <xpath expr="//div[@name='invoice_address']//address[1]" position="replace">
+        <address t-field="o.partner_id" t-options="{'widget': 'contact', 'fields': ['address', 'name', 'city_id', 'email', 'phone'], 'no_marker': True, 'label': True}"/>
+      </xpath>
 
+      <!-- <xpath expr="//div[@name='invoice_address']//address[1]" position="after">
+        <span>Correo: </span> <span t-field="o.partner_id.email"></span><br/>
+        <span>Telefono: </span> <span t-field="o.partner_id.phone"></span>
+      </xpath> -->
+      <xpath expr="//div[@class='page']/p[3]" position="before">
+        <p t-if="o.journal_id.invoice_comment">
+          <t t-raw="o.journal_id.invoice_comment"/>
+        </p>
+        <p t-if="o.show_invoice_comment">
+          <t t-raw="o.invoice_comment"/>
+        </p>
+      </xpath>
+      <xpath expr="//div[@class='page']/div[3]/div[@id='total']/div[@class='col-xs-4 pull-right']/table[@class='table table-condensed']" position="replace">
+        <table class="table table-condensed" style="min-width: 250px;max-width: 400px;">
+          <tr class="border-black" style="border-bottom:1px solid #dddddd;">
+            <td>
+              <strong>Subtotal</strong>
+            </td>
+            <td class="text-right">
+              <span t-field="o.amount_untaxed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+            </td>
+          </tr>
+          <t t-foreach="o.tax_line_ids.filtered(lambda l: l.amount_total > 0)" t-as="tax_line">
+            <tr style="border-bottom:1px solid #dddddd;">
+              <td>
+                <span t-esc="tax_line.name"/>
+              </td>
+              <td class="text-right">
+                  <span t-esc="tax_line.amount_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+              </td>
+            </tr>
+          </t>
+          <tr>
+          </tr>
+
+          <t t-foreach="o.retention_lines" t-as="tax_line">
+            <tr style="border-bottom:1px solid #dddddd;">
+              <td>
+                <span t-esc="tax_line.name"/>
+              </td>
+              <td class="text-right">
+                  <span t-esc="tax_line.virtual_retention" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+              </td>
+            </tr>
+          </t>
+          <tr class="border-black">
+            <td>
+              <strong>Total</strong>
+            </td>
+            <td class="text-right">
+              <span t-field="o.amount_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+            </td>
+          </tr>
+        </table>
+      </xpath>
+    </template>
   </data>
 </odoo>

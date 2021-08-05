@@ -6,9 +6,9 @@
       <field name="name">view_partner_property_form_co_bases</field>
       <field name="model">res.partner</field>
       <field name="priority">21</field>
-      <field name="inherit_id" ref="l10n_latam_base.view_partner_latam_form"/>
+      <field name="inherit_id" ref="l10n_co.view_partner_form_inherit_l10n_co"/>
       <field name="arch" type="xml">
-        <field name="l10n_latam_identification_type_id" position="attributes">
+        <field name="l10n_co_document_type" position="attributes">
           <attribute name="invisible">True</attribute>
         </field>
       </field>
@@ -32,11 +32,17 @@
             'default_parent_id': active_id, 
             'default_street': street, 
             'default_street2': street2, 
+            'default_city_id': city_id, 
             'default_state_id': state_id, 
             'default_zip': zip, 
             'default_country_id': country_id, 
+            'default_supplier': supplier, 
+            'default_customer': customer, 
             'default_lang': lang,
-            'default_vat': vat,}">
+            'default_vat': vat,
+            'default_vat_vd': vat_vd,
+            'default_regime_type': regime_type,
+            'default_vat_type': vat_type,}">
             <kanban>
               <field name="vat"/>
               <field name="vat_vd"/>
@@ -54,19 +60,31 @@
               <field name="street"/>
               <field name="street2"/>
               <field name="zip"/>
+              <field name="city_id"/>
               <field name="country_id"/>
               <field name="mobile"/>
               <field name="state_id"/>
+              <field name="image_small"/>
               <field name="lang"/>
               <field name="comment"/>
+              <field name="customer"/>
               <field name="display_name"/>
+              <field name="supplier"/>
               <templates>
                 <t t-name="kanban-box">
                   <t t-set="color" t-value="kanban_color(record.color.raw_value)"/>
                   <div t-att-class="color + (record.title.raw_value == 1 ? ' oe_kanban_color_alert' : '') + ' oe_kanban_global_click'">
                     <a t-if="!read_only_mode" type="delete" class="fa fa-times pull-right"/>
                     <div class="o_kanban_image">
-
+                      <img t-if="record.image_small.raw_value" t-att-src="'data:image/png;base64,'+record.image_small.raw_value"/>
+                      <t t-if="!record.image_small.raw_value">
+                        <img t-if="record.type.raw_value === 'delivery'" t-att-src="_s + &quot;/base/static/src/img/truck.png&quot;"/>
+                        <img t-if="record.type.raw_value === 'invoice'" t-att-src="_s + &quot;/base/static/src/img/money.png&quot;"/>
+                        <t t-if="record.type.raw_value !== 'invoice' &amp;&amp; record.type.raw_value !== 'delivery'">
+                          <img t-if="record.is_company.raw_value === true" t-att-src="_s + &quot;/base/static/src/img/company_image.png&quot;"/>
+                          <img t-if="record.is_company.raw_value === false" t-att-src="_s + &quot;/base/static/src/img/avatar.png&quot;"/>
+                        </t>
+                      </t>
                     </div>
                     <div class="oe_kanban_details">
                       <field name="name"/>
@@ -126,7 +144,10 @@
                     </div>
                   </group>
                 </group>
+                <field name="supplier" invisible="True"/>
+                <field name="customer" invisible="True"/>
                 <field name="lang" invisible="True"/>
+                <field name="image" invisible="True"/>
               </sheet>
             </form>
           </field>
@@ -178,9 +199,6 @@
         <field name="state_id" position="after">
           <field name="city_id" placeholder="City"/>
         </field>
-        <field name="city" position="attributes">
-          <attribute name="invisible">True</attribute>
-        </field>
 
         <group name="accounting_entries" position="after">
           <group string="Taxes" name="accounting_partner_taxes" groups="account.group_account_user">
@@ -202,7 +220,7 @@
       </field>
     </record>
     <!-- Este por ahora no es un punto critico -->
-<!--     <record model="ir.ui.view" id="form_view_base_ledger">
+    <record model="ir.ui.view" id="form_view_base_ledger">
   		<field name="name">Vista Optimizada Colombia</field>
   		<field name="inherit_id" ref="account_reports.partner_view_buttons" />
   		<field name="model">res.partner</field>
@@ -213,6 +231,6 @@
           </button>
   			</xpath>
   		</field>
-  	</record> -->
+  	</record>
   </data>
 </odoo>

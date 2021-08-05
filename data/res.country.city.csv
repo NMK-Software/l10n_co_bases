@@ -1,4 +1,4 @@
-id,country_id:id,name,code,zipcode,state_id:id
+id,country_id:id,name,code,postal_code,state_id:id
 state_co_201,base.co,MEDELLÍN,05001,050032,base.state_co_01
 state_co_202,base.co,ABEJORRAL,05002,055030,base.state_co_01
 state_co_203,base.co,ABRIAQUÍ,05004,057467,base.state_co_01

@@ -1,7 +1,13 @@
 <odoo>
   <data>
 
-    <menuitem id="res_country_city_menu" name="Cities" action="base_address_city.action_res_city_tree" parent="contacts.menu_localisation" groups="base.group_no_one"/>
+    <menuitem id="res_country_city_menu" name="Cities" action="l10n_co_bases.action_res_country_city" parent="contacts.menu_localisation" groups="base.group_no_one"/>
 
+    <!-- <menuitem id="base_ciiu_menu"
+              name="CIIU"
+              action="action_res_co_ciiu_form"
+              parent="account.account_account_menu"
+              groups="account.group_account_invoice"
+              sequence="0"/> -->
   </data>
 </odoo>
