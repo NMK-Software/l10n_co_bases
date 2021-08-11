@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <template id="exogen_info_report_invoice_document" inherit_id="account.report_invoice_document">
+      <xpath expr="//div[@name='invoice_address']" position="attributes">
+        <attribute name="class">col-xs-5 pull-right</attribute>
+      </xpath>
+      <xpath expr="//div[@name='invoice_address']//address[1]" position="after">
+        <span>Correo: </span> <span t-field="o.partner_id.email"></span><br/>
+        <span>Telefono: </span> <span t-field="o.partner_id.phone"></span>
+      </xpath>
+      <xpath expr="//div[@class='page']/p[3]" position="before">
+        <p t-if="o.journal_id.invoice_comment">
+          <t t-raw="o.journal_id.invoice_comment"/>
+        </p>
+        <p t-if="o.show_invoice_comment">
+          <t t-raw="o.invoice_comment"/>
+        </p>
+      </xpath>
+    </template>
+  </data>
+</odoo>

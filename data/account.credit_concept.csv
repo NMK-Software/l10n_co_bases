@@ -1,0 +1,7 @@
+id,name,code,active,state
+credit_concept_1,"Devolución de parte de los bienes; no aceptación de partes del servicio",1,True,'working'
+credit_concept_2,"Anulación de factura electronica",2,True,'working'
+credit_concept_3,"Rebaja total aplicada",3,True,'working'
+credit_concept_4,"Descuento total aplicado",4,True,'working'
+credit_concept_5,"Rescisión: nulidad por falta de requisitos",5,True,'working'
+credit_concept_6,"Otros",6,True,'working'

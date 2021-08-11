@@ -1,0 +1,5 @@
+id,name,code,active,state
+type_invoice_1,"Factura de Venta",1,True,'working'
+type_invoice_2,"Factura de Exportación",2,True,'working'
+type_invoice_3,"Factura de Contigencia",3,True,'working'
+type_invoice_4,"Factura de Importación",4,False,'discontinued'

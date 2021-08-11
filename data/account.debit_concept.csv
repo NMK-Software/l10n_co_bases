@@ -1,0 +1,4 @@
+id,name,code,active,state
+debit_concept_1,"Intereses",1,True,'working'
+debit_concept_2,"Gastos por cobrar",2,True,'working'
+debit_concept_3,"Cambio del valor",3,True,'working'
