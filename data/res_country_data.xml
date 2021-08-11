@@ -126,10 +126,10 @@
         <record id="base.cc" model="res.country">
             <field name="code_dian">165</field>
         </record>
-        <record id="base.co" model="res.country">
+        <!--<record id="base.co" model="res.country">
             <field name="code_dian">169</field>
             <field name="address_format" eval="'%(street)s\n%(street2)s\n%(city_name)s \n%(country_name)s'" />
-        </record>
+        </record>-->
         <record id="base.km" model="res.country">
             <field name="code_dian">173</field>
         </record>

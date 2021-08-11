@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data>
-    <template id="exogen_info_report_invoice_document" inherit_id="account.report_invoice_document">
+    <!--<template id="exogen_info_report_invoice_document" inherit_id="account.report_invoice_document">
       <xpath expr="//div[@name='invoice_address']" position="attributes">
         <attribute name="class">col-xs-5 pull-right</attribute>
       </xpath>
@@ -17,6 +17,6 @@
           <t t-raw="o.invoice_comment"/>
         </p>
       </xpath>
-    </template>
+    </template>-->
   </data>
 </odoo>
