@@ -79,7 +79,7 @@
       </field>
     </record>
     <!-- Este por ahora no es un punto critico -->
-    <record model="ir.ui.view" id="form_view_base_ledger">
+    <!--<record model="ir.ui.view" id="form_view_base_ledger">
   		<field name="name">Vista Optimizada Colombia</field>
   		<field name="inherit_id" ref="account_reports.partner_view_buttons" />
   		<field name="model">res.partner</field>
@@ -90,6 +90,6 @@
           </button>
   			</xpath>
   		</field>
-  	</record>
+  	</record>-->
   </data>
 </odoo>

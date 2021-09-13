@@ -14,9 +14,8 @@
         'base',
         'account',
         'account_tax_python',
-        'account_reports',
         'l10n_co',
-        'gts_multiple_invoice_payment',
+        
     ],
     'data': [
         'data/res.country.city.csv',
