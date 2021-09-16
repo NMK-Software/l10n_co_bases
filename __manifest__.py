@@ -23,7 +23,7 @@
         'security/ir.model.access.csv',
         'data/res.ciiu.csv',
         #'data/res_country_data.xml',
-        #'data/account_tax_group.xml',
+        'data/account_tax_group.xml',
         #'data/account_tax_template.xml',
         'data/res_partner.xml',
         'data/res_company.xml',
