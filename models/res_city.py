@@ -9,6 +9,7 @@ class ResCity(models.Model):
 
     name = fields.Char(translate=False)
     code = fields.Char(string="Code")
+    postal_code = fields.Char(string=u'Postal code',)
 
     def name_get(self):
         rec = []
