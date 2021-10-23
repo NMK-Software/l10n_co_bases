@@ -9,9 +9,6 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
-#import unittest
-#from odoo.tests import tagged
-
 class TestPartner(TransactionCase):
 
     def test_name_search(self):
