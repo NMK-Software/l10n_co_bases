@@ -91,8 +91,6 @@ class ResPartner(models.Model):
 
         return self._search(args, limit=limit, access_rights_uid=name_get_uid)
 
-
-
     def _display_address(self, without_company=False):
 
         address_format = self.country_id.address_format or \
@@ -175,7 +173,6 @@ class ResPartner(models.Model):
 
                 partner.vat.strip()
                 partner.check_unique_constraint()
-
 
     @api.onchange("vat_type", "vat", "vat_vd", )
     def _onchange_vat_vd(self):
@@ -271,16 +268,3 @@ class ResPartner(models.Model):
     def create(self, values):
         values = self.person_name(values)
         return super(ResPartner, self).create(values)
-
-
-    # def _commercial_sync_to_children(self):
-    #     result = super(ResPartner, self)._commercial_sync_to_children()
-
-    #     commercial_partner = self.commercial_partner_id
-    #     sync_vals = commercial_partner._update_fields_values(self._commercial_fields())
-    #     sync_children = self.child_ids.filtered(lambda c: c.is_company)
-    #     for child in sync_children:
-    #         child._commercial_sync_to_children()
-    #     sync_children._compute_commercial_partner()
-    #     sync_children.write(sync_vals)
-    #     return result
