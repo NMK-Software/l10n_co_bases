@@ -84,12 +84,13 @@ class ResPartner(models.Model):
 
 
     @api.model
-    def name_search(self, name, args=None, operator='ilike', limit=100):
+    def _name_search(self, name, args=None, operator='ilike', limit=100, name_get_uid=None):
         args = args or []
         if name:
-            args = ['|','|',('vat', 'ilike', name),('name', 'ilike', name),('display_name', 'ilike', name)] + args
+            args = ['|','|',('vat', 'ilike', name + '%'),('name', 'ilike', name),('display_name', 'ilike', name)] + args
 
-        return super(ResPartner, self).name_search(name, args=args, operator=operator, limit=limit)
+        return self._search(args, limit=limit, access_rights_uid=name_get_uid)
+
 
 
     def _display_address(self, without_company=False):
