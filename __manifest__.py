@@ -22,6 +22,7 @@
         'data/res.bank.csv',
         'data/res.ciiu.csv',
         'data/account_tax_group.xml',
+        'data/res_country_state.xml',
         'security/ir.model.access.csv',
         #'data/res_partner.xml',
         #'data/res_company.xml',
@@ -29,6 +30,7 @@
         'views/res_partner_view.xml',
         'views/res_company_view.xml',
         'views/res_country_view.xml',
+        'views/res_country_state.xml',
         'views/account_tax_view.xml',
         'views/account_journal_view.xml',
         'views/account_invoice_view.xml',
@@ -38,5 +40,4 @@
     ],
     'installable': True,
     'auto_install': False,
-    'application' : True,
 }
