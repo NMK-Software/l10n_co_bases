@@ -31,3 +31,20 @@ class TestPartner(TransactionCase):
         self.assertEqual(test_partner.id, ns_name[0])
         self.assertEqual(test_partner.id, ns_vat[0])
 
+
+    def test_person_name(self):
+        """
+        Check person_name on partner
+        """
+        values = {
+            'first_name': 'Juan',
+            'middle_name': 'Alberto',
+            'last_name': 'Gomez',
+            'second_last_name': 'Mendoza',
+            'email': 'asd@gmail.com',
+            'country_id': self.env.ref('base.co').id,
+            'vat': '123456789',
+            'vat_vd': '0',
+        }
+        test_partner = self.env['res.partner'].person_name(values)
+        self.assertEqual(test_partner['name'], 'Juan Alberto Gomez Mendoza')
