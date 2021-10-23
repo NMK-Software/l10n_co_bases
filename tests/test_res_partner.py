@@ -80,3 +80,12 @@ class TestPartner(TransactionCase):
 
         with self.assertRaises(ValidationError), self.cr.savepoint():
             self.env['res.partner'].create(values)
+
+    def test_compute_vat_vd(self):
+        """
+        Check compute vat vd on partner
+        """
+        vat = '900088915'
+        vat_vd = self.env['res.partner'].compute_vat_vd(vat)
+        self.assertEqual(vat_vd, '7')
+
