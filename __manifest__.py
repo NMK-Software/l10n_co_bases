@@ -20,9 +20,9 @@
     'data': [
         'data/res.city.csv',
         'data/res.bank.csv',
-        'security/ir.model.access.csv',
         'data/res.ciiu.csv',
         'data/account_tax_group.xml',
+        'security/ir.model.access.csv',
         #'data/res_partner.xml',
         #'data/res_company.xml',
         'views/res_ciiu_view.xml',
