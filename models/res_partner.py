@@ -180,30 +180,34 @@ class ResPartner(models.Model):
         self.check_vat_dv()
 
     def check_vat_co(self):
+        """
+        Check vat_co field
+        """
         self.ensure_one()
-        vat = self.vat
         vat_vd = self.vat_vd
-        factor = (71, 67, 59, 53, 47, 43, 41, 37, 29, 23, 19, 17, 13, 7, 3)
-        vat = vat.rjust(15, '0')
-        csum = sum([int(vat[i]) * factor[i] for i in range(15)])
-        check = csum % 11
-        if check > 1:
-            check = 11 - check
-        if int(check) == int(vat_vd):
-            return True
-        return False
+        computed_vat_vd = self.compute_vat_vd(self.vat)
+        if vat_vd != computed_vat_vd:
+            return False
+        return True
 
-    def compute_vat_co(self):
-        self.ensure_one()
-        vat = self.vat
-        factor = (71, 67, 59, 53, 47, 43, 41, 37, 29, 23, 19, 17, 13, 7, 3)
-        vat = vat.rjust(15, '0')
-        csum = sum([int(vat[i]) * factor[i] for i in range(15)])
-        check = csum % 11
-        if check > 1:
-            check = 11 - check
+    def compute_vat_vd(self, rut):
+        """
+        :param rut(str): rut to check
+        
+        Obtiene el digito de verificacion de un rut
 
-        return check
+        :return result(str): vat vd
+        """
+        result = None
+        factores = [3, 7, 13, 17, 19, 23, 29, 37, 41, 43, 47, 53, 59, 67, 71]
+        rut_ajustado=str(rut).rjust( 15, '0')
+        s = sum(int(rut_ajustado[14-i]) * factores[i] for i in range(14)) % 11
+        if s > 1:
+            result =  11 - s
+        else:
+            result = s
+
+        return str(result)
 
     @api.onchange('first_name', 'middle_name', 'last_name', 'second_last_name')
     def _onchange_person_names(self):
