@@ -168,13 +168,14 @@ class ResPartner(models.Model):
         """
         Check vat field
         """
-        if self.vat:
-            if not re.match(r'^\d+$', self.vat) and self.vat_type in ['31', '13']:
-                raise ValidationError(_('The vat number must be only numbers, there are characters invalid like letters or empty space'))
+        for partner in self:
+            if partner.vat:
+                if not re.match(r'^\d+$', partner.vat) and partner.vat_type in ['31', '13']:
+                    raise ValidationError(_('The vat number must be only numbers, there are characters invalid like letters or empty space'))
 
-            self.vat.strip()
-            self.check_unique_constraint()
-        return True
+                partner.vat.strip()
+                partner.check_unique_constraint()
+
 
     @api.onchange("vat_type", "vat", "vat_vd", )
     def _onchange_vat_vd(self):
@@ -272,14 +273,14 @@ class ResPartner(models.Model):
         return super(ResPartner, self).create(values)
 
 
-    def _commercial_sync_to_children(self):
-        result = super(ResPartner, self)._commercial_sync_to_children()
+    # def _commercial_sync_to_children(self):
+    #     result = super(ResPartner, self)._commercial_sync_to_children()
 
-        commercial_partner = self.commercial_partner_id
-        sync_vals = commercial_partner._update_fields_values(self._commercial_fields())
-        sync_children = self.child_ids.filtered(lambda c: c.is_company)
-        for child in sync_children:
-            child._commercial_sync_to_children()
-        sync_children._compute_commercial_partner()
-        sync_children.write(sync_vals)
-        return result
+    #     commercial_partner = self.commercial_partner_id
+    #     sync_vals = commercial_partner._update_fields_values(self._commercial_fields())
+    #     sync_children = self.child_ids.filtered(lambda c: c.is_company)
+    #     for child in sync_children:
+    #         child._commercial_sync_to_children()
+    #     sync_children._compute_commercial_partner()
+    #     sync_children.write(sync_vals)
+    #     return result
