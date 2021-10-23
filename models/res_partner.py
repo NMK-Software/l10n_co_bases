@@ -158,7 +158,7 @@ class ResPartner(models.Model):
             _logger.info(u'Importing VAT Number [%s - %i] for "%s" is not valid !' %
                         (self.vat, self.vat_vd, self.name))
             raise ValidationError(u'NIT/RUT [%s - %i] suministrado para "%s" no supera la prueba del dígito de verificacion, el valor calculado es %s!' %
-                                  (self.vat, self.vat_vd, self.name, self.compute_vat_co()))
+                                  (self.vat, self.vat_vd, self.name, self.compute_vat_vd(self.vat)))
         return True
 
     @api.constrains("vat", "vat_type")

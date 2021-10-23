@@ -89,3 +89,20 @@ class TestPartner(TransactionCase):
         vat_vd = self.env['res.partner'].compute_vat_vd(vat)
         self.assertEqual(vat_vd, '7')
 
+    def test_check_vat_vd(self):
+        """
+        Check check vat vd on partner
+        """
+        values = {
+            'first_name': 'Juan',
+            'middle_name': 'Alberto',
+            'last_name': 'Gomez',
+            'second_last_name': 'Mendoza',
+            'email': 'asd@gmail.com',
+            'country_id': self.env.ref('base.co').id,
+            'vat': '900088915',
+            'vat_vd': '1',
+            'vat_type': '31',
+        }
+        with self.assertRaises(ValidationError), self.cr.savepoint():
+            self.env['res.partner'].create(values)
