@@ -84,13 +84,12 @@ class ResPartner(models.Model):
 
 
     @api.model
-    def name_search(self, name, args=None, operator='ilike', limit=100):
+    def _name_search(self, name, args=None, operator='ilike', limit=100, name_get_uid=None):
         args = args or []
         if name:
-            args = ['|','|',('vat', 'ilike', name),('name', 'ilike', name),('display_name', 'ilike', name)] + args
-            
-        return super(ResPartner, self).name_search(name, args=args, operator=operator, limit=limit)
+            args = ['|','|',('vat', 'ilike', name + '%'),('name', 'ilike', name),('display_name', 'ilike', name)] + args
 
+        return self._search(args, limit=limit, access_rights_uid=name_get_uid)
 
     def _display_address(self, without_company=False):
 
@@ -137,34 +136,43 @@ class ResPartner(models.Model):
 
 
     def _compute_vat_ref(self):
-        for record in self:
+        """
+        Compute vat_ref field
+        """
+        for partner in self:
             result_vat = None
-            if record.vat_type == '31' and record.vat and record.vat.isdigit() and len(record.vat.strip()) > 0:
-                result_vat = '{:,}'.format(int(record.vat.strip())).replace(",", ".")
-                record.vat_ref = "%s-%i" % (result_vat,record.vat_vd)
+            if partner.vat_type == '31' and partner.vat and partner.vat.isdigit() and len(partner.vat.strip()) > 0:
+                result_vat = '{:,}'.format(int(partner.vat.strip())).replace(",", ".")
+                partner.vat_ref = "%s-%i" % (result_vat,partner.vat_vd)
             else:
-                record.vat_ref = record.vat
+                partner.vat_ref = partner.vat
 
     @api.constrains("vat_vd")
     def check_vat_dv(self):
+        """
+        Check vat_vd field
+        """
         self.ensure_one()
         if self.vat_type == '31' and self.vat and self.vat_vd and \
            not self.check_vat_co():
             _logger.info(u'Importing VAT Number [%s - %i] for "%s" is not valid !' %
                         (self.vat, self.vat_vd, self.name))
             raise ValidationError(u'NIT/RUT [%s - %i] suministrado para "%s" no supera la prueba del dígito de verificacion, el valor calculado es %s!' %
-                                  (self.vat, self.vat_vd, self.name, self.compute_vat_co()))
+                                  (self.vat, self.vat_vd, self.name, self.compute_vat_vd(self.vat)))
         return True
 
     @api.constrains("vat", "vat_type")
     def check_vat(self):
-        if self.vat:
-            if not re.match(r'^\d+$', self.vat) and self.vat_type in ['31', '13']:
-                raise ValidationError(_('The vat number must be only numbers, there are characters invalid like letters or empty space'))
+        """
+        Check vat field
+        """
+        for partner in self:
+            if partner.vat:
+                if not re.match(r'^\d+$', partner.vat) and partner.vat_type in ['31', '13']:
+                    raise ValidationError(_('The vat number must be only numbers, there are characters invalid like letters or empty space'))
 
-            self.vat.strip()
-            self.check_unique_constraint()
-        return True
+                partner.vat.strip()
+                partner.check_unique_constraint()
 
     @api.onchange("vat_type", "vat", "vat_vd", )
     def _onchange_vat_vd(self):
@@ -172,30 +180,34 @@ class ResPartner(models.Model):
         self.check_vat_dv()
 
     def check_vat_co(self):
+        """
+        Check vat_co field
+        """
         self.ensure_one()
-        vat = self.vat
         vat_vd = self.vat_vd
-        factor = (71, 67, 59, 53, 47, 43, 41, 37, 29, 23, 19, 17, 13, 7, 3)
-        vat = vat.rjust(15, '0')
-        csum = sum([int(vat[i]) * factor[i] for i in range(15)])
-        check = csum % 11
-        if check > 1:
-            check = 11 - check
-        if int(check) == int(vat_vd):
-            return True
-        return False
+        computed_vat_vd = self.compute_vat_vd(self.vat)
+        if vat_vd != computed_vat_vd:
+            return False
+        return True
 
-    def compute_vat_co(self):
-        self.ensure_one()
-        vat = self.vat
-        factor = (71, 67, 59, 53, 47, 43, 41, 37, 29, 23, 19, 17, 13, 7, 3)
-        vat = vat.rjust(15, '0')
-        csum = sum([int(vat[i]) * factor[i] for i in range(15)])
-        check = csum % 11
-        if check > 1:
-            check = 11 - check
+    def compute_vat_vd(self, rut):
+        """
+        :param rut(str): rut to check
+        
+        Obtiene el digito de verificacion de un rut
 
-        return check
+        :return result(str): vat vd
+        """
+        result = None
+        factores = [3, 7, 13, 17, 19, 23, 29, 37, 41, 43, 47, 53, 59, 67, 71]
+        rut_ajustado=str(rut).rjust( 15, '0')
+        s = sum(int(rut_ajustado[14-i]) * factores[i] for i in range(14)) % 11
+        if s > 1:
+            result =  11 - s
+        else:
+            result = s
+
+        return str(result)
 
     @api.onchange('first_name', 'middle_name', 'last_name', 'second_last_name')
     def _onchange_person_names(self):
@@ -260,16 +272,3 @@ class ResPartner(models.Model):
     def create(self, values):
         values = self.person_name(values)
         return super(ResPartner, self).create(values)
-
-
-    def _commercial_sync_to_children(self):
-        result = super(ResPartner, self)._commercial_sync_to_children()
-
-        commercial_partner = self.commercial_partner_id
-        sync_vals = commercial_partner._update_fields_values(self._commercial_fields())
-        sync_children = self.child_ids.filtered(lambda c: c.is_company)
-        for child in sync_children:
-            child._commercial_sync_to_children()
-        sync_children._compute_commercial_partner()
-        sync_children.write(sync_vals)
-        return result

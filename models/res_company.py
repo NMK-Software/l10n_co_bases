@@ -10,13 +10,10 @@ class ResCompany(models.Model):
 
     def _get_default_partner(self):
         res_partner = self.env['res.partner'].sudo()
-        # partner_id = res_partner.search([
-        #     ('anonymous_customer','=',True),
-        # ], limit=1)
         partner_id = res_partner.browse(1)
         return partner_id.id
 
-    city_id = fields.Many2one('res.city', compute="_compute_address", inverse="_inverse_city_id", string="City")
+    city_id = fields.Many2one('res.city', compute="_compute_address", inverse="_inverse_city_id", string="City of Address")
     vat_vd = fields.Integer(compute="_compute_address", inverse="_inverse_vat_vd", string="Verification digit")
     default_partner_id = fields.Many2one('res.partner', string="Default partner", required=True, default=_get_default_partner)
 

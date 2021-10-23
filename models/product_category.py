@@ -27,15 +27,3 @@ class ProductCategory(models.Model):
         domain="[('type_tax_use','=','purchase')]",
         help="Taxes applied for purchase.",
     )
-
-"""
-AQUI DEBEMOS CARGAR LOS IMPUESTOS DEL 3ro y LA COMPAÑIA
-class ProductTemplate(models.Model):
-    _inherit = "product.template"
-
-    taxes_id = fields.Many2many('account.tax', 'product_taxes_rel', 'prod_id', 'tax_id', string='Customer Taxes',
-        domain=[('type_tax_use', '=', 'sale')])
-    supplier_taxes_id = fields.Many2many('account.tax', 'product_supplier_taxes_rel', 'prod_id', 'tax_id', string='Vendor Taxes',
-        domain=[('type_tax_use', '=', 'purchase')])
-
-"""

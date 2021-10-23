@@ -10,6 +10,7 @@
       <field name="arch" type="xml">
         <field name="l10n_latam_identification_type_id" position="attributes">
           <attribute name="invisible">True</attribute>
+          <attribute name="title">identification type</attribute>
         </field>
       </field>
     </record>
@@ -64,7 +65,7 @@
                 <t t-name="kanban-box">
                   <t t-set="color" t-value="kanban_color(record.color.raw_value)"/>
                   <div t-att-class="color + (record.title.raw_value == 1 ? ' oe_kanban_color_alert' : '') + ' oe_kanban_global_click'">
-                    <a t-if="!read_only_mode" type="delete" class="fa fa-times pull-right"/>
+                    <a t-if="!read_only_mode" type="delete" class="fa fa-times pull-right" title="delete"/>
                     <div class="o_kanban_image">
 
                     </div>
