@@ -7,4 +7,4 @@ from odoo import models, fields, api
 class ResBank(models.Model):
     _inherit = 'res.bank'
 
-    city_id = fields.Many2one('res.city', string="City")
+    city_id = fields.Many2one('res.city', string="City of Address")
