@@ -88,7 +88,7 @@ class ResPartner(models.Model):
         args = args or []
         if name:
             args = ['|','|',('vat', 'ilike', name),('name', 'ilike', name),('display_name', 'ilike', name)] + args
-            
+
         return super(ResPartner, self).name_search(name, args=args, operator=operator, limit=limit)
 
 
@@ -137,16 +137,22 @@ class ResPartner(models.Model):
 
 
     def _compute_vat_ref(self):
-        for record in self:
+        """
+        Compute vat_ref field
+        """
+        for partner in self:
             result_vat = None
-            if record.vat_type == '31' and record.vat and record.vat.isdigit() and len(record.vat.strip()) > 0:
-                result_vat = '{:,}'.format(int(record.vat.strip())).replace(",", ".")
-                record.vat_ref = "%s-%i" % (result_vat,record.vat_vd)
+            if partner.vat_type == '31' and partner.vat and partner.vat.isdigit() and len(partner.vat.strip()) > 0:
+                result_vat = '{:,}'.format(int(partner.vat.strip())).replace(",", ".")
+                partner.vat_ref = "%s-%i" % (result_vat,partner.vat_vd)
             else:
-                record.vat_ref = record.vat
+                partner.vat_ref = partner.vat
 
     @api.constrains("vat_vd")
     def check_vat_dv(self):
+        """
+        Check vat_vd field
+        """
         self.ensure_one()
         if self.vat_type == '31' and self.vat and self.vat_vd and \
            not self.check_vat_co():
@@ -158,6 +164,9 @@ class ResPartner(models.Model):
 
     @api.constrains("vat", "vat_type")
     def check_vat(self):
+        """
+        Check vat field
+        """
         if self.vat:
             if not re.match(r'^\d+$', self.vat) and self.vat_type in ['31', '13']:
                 raise ValidationError(_('The vat number must be only numbers, there are characters invalid like letters or empty space'))
