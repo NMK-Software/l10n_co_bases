@@ -24,8 +24,6 @@
         'data/account_tax_group.xml',
         'data/res_country_state.xml',
         'security/ir.model.access.csv',
-        #'data/res_partner.xml',
-        #'data/res_company.xml',
         'views/res_ciiu_view.xml',
         'views/res_partner_view.xml',
         'views/res_company_view.xml',
