@@ -178,7 +178,16 @@ class ResPartner(models.Model):
     @api.onchange("vat_type", "vat", "vat_vd", )
     def _onchange_vat_vd(self):
         self.ensure_one()
-        self.check_vat_dv()
+        if self.vat_type == '31' and self.vat and self.vat_vd and \
+           not self.check_vat_co():
+
+            return {
+                'warning': {
+                    'title': _('Warning'),
+                    'message': u'NIT/RUT [%s - %i] suministrado para "%s" no supera la prueba del dígito de verificacion, el valor calculado es %s!' %
+                                  (self.vat, self.vat_vd, self.name, self.compute_vat_vd(self.vat))
+                }
+            }
 
     def check_vat_co(self):
         """
