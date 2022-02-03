@@ -196,7 +196,7 @@ class ResPartner(models.Model):
         self.ensure_one()
         vat_vd = self.vat_vd
         computed_vat_vd = self.compute_vat_vd(self.vat)
-        if vat_vd != computed_vat_vd:
+        if int(vat_vd) != int(computed_vat_vd):
             return False
         return True
 
@@ -217,7 +217,7 @@ class ResPartner(models.Model):
         else:
             result = s
 
-        return str(result)
+        return result
 
     @api.onchange('first_name', 'middle_name', 'last_name', 'second_last_name')
     def _onchange_person_names(self):
