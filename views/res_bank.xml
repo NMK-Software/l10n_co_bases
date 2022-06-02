@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 	<data>
-        <record id="view_category_taxes_form" model="ir.ui.view">
-            <field name="name">product.category.taxes.form.inherit</field>
+        <record id="res_bank_form_view" model="ir.ui.view">
+            <field name="name">Res bank view</field>
             <field name="model">res.bank</field>
             <field name="inherit_id" ref="base.view_res_bank_form"/>
             <field name="arch" type="xml">
