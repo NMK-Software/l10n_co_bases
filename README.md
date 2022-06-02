@@ -29,3 +29,6 @@ Estructura de las tablas:
         - Algunas funciones para validar el digito de verificacion y el NIT
         - Validacion para el NIT
 
+## Recursos
+
+https://www.satbancolombia.com/conversores#!/bancos
