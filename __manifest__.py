@@ -34,6 +34,7 @@
         'views/account_invoice_view.xml',
         'views/product_category_view.xml',
         'views/report_invoice_document.xml',
+        'views/res_bank.xml',
         'views/menu.xml',
     ],
     'installable': True,

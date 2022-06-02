@@ -8,3 +8,4 @@ class ResBank(models.Model):
     _inherit = 'res.bank'
 
     city_id = fields.Many2one('res.city', string="City of Address")
+    bank_code = fields.Char(string='Bank Code')
