@@ -237,10 +237,11 @@ class ResPartner(models.Model):
             })
         return super(ResPartner, self).copy(default=default)
 
+    @api.constrains("vat")
     def check_unique_constraint(self):
         partner_ids = self.search([
             ('vat','=', self.vat),
-            ('vat_type','=', self.vat_type),
+            #('vat_type','=', self.vat_type),
             ('parent_id','=',False),
         ])
         partner_ids = partner_ids - self
