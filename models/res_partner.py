@@ -83,6 +83,10 @@ class ResPartner(models.Model):
     regime_type = fields.Selection(_get_available_regime, string="Regimen", default="48")
     anonymous_customer = fields.Boolean(string="Anonymous customer")
 
+    _sql_constraints = [
+        ('unique_vat','UNIQUE(vat,company_id)', 'VAT alreaedy exist')
+    ]
+
 
     @api.model
     def _name_search(self, name, args=None, operator='ilike', limit=100, name_get_uid=None):
