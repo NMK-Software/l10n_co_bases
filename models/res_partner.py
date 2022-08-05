@@ -84,7 +84,7 @@ class ResPartner(models.Model):
     anonymous_customer = fields.Boolean(string="Anonymous customer")
 
     _sql_constraints = [
-        ('unique_vat','UNIQUE(vat,company_id)', 'VAT alreaedy exist')
+        ('unique_vat','UNIQUE(vat)', 'VAT alreaedy exist')
     ]
 
 
