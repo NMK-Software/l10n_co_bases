@@ -23,6 +23,10 @@ class ResCountryCity(models.Model):
 
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):
+        """
+        Se hereda metodo name search y se sobreescribe para hacer la busqueda 
+        por el codigo de la ciudad
+        """
         if not args:
             args = []
         args = args[:]
@@ -32,7 +36,7 @@ class ResCountryCity(models.Model):
             if not ids:
                 ids = self.search([('name', operator, name)] + args,limit=limit)
         else:
-            ids = self.search([], limit=100)
+            ids = self.search(args, limit=100)
 
         if ids:
             return ids.name_get()

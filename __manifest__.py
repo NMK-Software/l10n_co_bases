@@ -15,7 +15,7 @@
         'account',
         'account_tax_python',
         'l10n_co',
-        
+        'contacts',
     ],
     'data': [
         'data/res.country.city.csv',
@@ -25,6 +25,7 @@
         'data/res_country_data.xml',
         'data/account_tax_group.xml',
         'data/account_tax_template.xml',
+        'data/res_country_state.xml',
         'views/res_config_setting.xml',
         'views/res_ciiu_view.xml',
         'views/res_partner_view.xml',
@@ -36,7 +37,7 @@
         'views/res_country_city.xml',
         'views/account_invoice_view.xml',
         'views/menu.xml',
-        'views/report_invoice_document.xml',
+        'views/res_country_state.xml',
     ],
     'installable': True,
     'auto_install': False,

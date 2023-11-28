@@ -13,7 +13,7 @@ class ResCompany(models.Model):
         partner_id = res_partner.browse(1)
         return partner_id.id
 
-    city_id = fields.Many2one('res.country.city', compute="_compute_address", inverse="_inverse_city_id", string="City")
+    city_id = fields.Many2one('res.country.city', compute="_compute_address", inverse="_inverse_city_id", string="City of Address")
     vat_vd = fields.Integer(compute="_compute_address", inverse="_inverse_vat_vd", string="Verification digit")
     default_partner_id = fields.Many2one('res.partner', string="Default partner", required=True, default=_get_default_partner)
 

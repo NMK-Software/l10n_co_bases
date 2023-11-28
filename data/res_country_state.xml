@@ -1,0 +1,137 @@
+<odoo>
+    <data>
+        <record model="res.country.state" id="base.state_co_01">
+            <field name="code_department">5</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_02">
+            <field name="code_department">8</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_03">
+            <field name="code_department">11</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_04">
+            <field name="code_department">13</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_05">
+            <field name="code_department">15</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_06">
+            <field name="code_department">17</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_07">
+            <field name="code_department">18</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_08">
+            <field name="code_department">19</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_09">
+            <field name="code_department">20</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_10">
+            <field name="code_department">23</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_11">
+            <field name="code_department">25</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_12">
+            <field name="code_department">27</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_13">
+            <field name="code_department">41</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_14">
+            <field name="code_department">44</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_15">
+            <field name="code_department">47</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_16">
+            <field name="code_department">50</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_17">
+            <field name="code_department">52</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_18">
+            <field name="code_department">54</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_19">
+            <field name="code_department">63</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_20">
+            <field name="code_department">66</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_21">
+            <field name="code_department">68</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_22">
+            <field name="code_department">70</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_23">
+            <field name="code_department">73</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_24">
+            <field name="code_department">76</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_25">
+            <field name="code_department">81</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_26">
+            <field name="code_department">85</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_27">
+            <field name="code_department">86</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_28">
+            <field name="code_department">88</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_29">
+            <field name="code_department">91</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_30">
+            <field name="code_department">94</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_31">
+            <field name="code_department">95</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_32">
+            <field name="code_department">97</field>
+        </record>
+
+        <record model="res.country.state" id="base.state_co_33">
+            <field name="code_department">99</field>
+        </record>
+
+
+    </data>
+</odoo>

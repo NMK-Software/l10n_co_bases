@@ -45,6 +45,7 @@ class ResPartner(models.Model):
             ('31', u'31 - NIT/RUT'),
             ('41', u'41 - Pasaporte'),
             ('42', u'42 - Documento de identificación extranjero'),
+            ('47', u'47 - PEP'),
             ('50', u'50 - NIT de otro pais'),
             ('91', u'91 - NUIP'),
         ],

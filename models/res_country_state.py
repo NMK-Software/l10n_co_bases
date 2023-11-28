@@ -8,3 +8,4 @@ class ResCountryState(models.Model):
     _inherit = 'res.country.state'
 
     postal_code = fields.Char(string=u'Postal code',)
+    code_department = fields.Char(string="Code department")

@@ -2,7 +2,7 @@
 # Copyright 2019 NMKSoftware
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-from openerp import models, fields, api, _
+from odoo import models, fields, api, _
 
 class ResCountry(models.Model):
     _inherit = 'res.country'
@@ -23,6 +23,10 @@ class ResCountry(models.Model):
 
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):
+        """
+        Se hereda metodo name search y se sobreescribe para hacer la busqueda 
+        por el codigo del pais
+        """
         if not args:
             args = []
         args = args[:]
@@ -34,7 +38,7 @@ class ResCountry(models.Model):
                 if not ids:
                     ids = self.search([('name', operator, name)] + args,limit=limit)
         else:
-            ids = self.search([], limit=100)
+            ids = self.search(args, limit=100)
 
         if ids:
             return ids.name_get()
@@ -55,6 +59,10 @@ class ResCountryState(models.Model):
 
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):
+        """
+        Se hereda metodo name search y se sobreescribe para hacer la busqueda 
+        por el codigo del estado/departamento
+        """
         if not args:
             args = []
         args = args[:]
@@ -64,7 +72,7 @@ class ResCountryState(models.Model):
             if not ids:
                 ids = self.search([('name', operator, name)] + args,limit=limit)
         else:
-            ids = self.search([], limit=100)
+            ids = self.search(args, limit=100)
 
         if ids:
             return ids.name_get()
